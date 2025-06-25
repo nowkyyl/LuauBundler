@@ -1,4 +1,4 @@
-# EXEMPLE
+# How To Use
 
 ### Project Structure
 ```
