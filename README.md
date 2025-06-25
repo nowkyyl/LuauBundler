@@ -1,6 +1,6 @@
-### EXEMPLE!
+# EXEMPLE
 
-# Project Structure
+### Project Structure
 ```
 project/
 ├── main.lua
@@ -14,7 +14,7 @@ project/
 
 Importing Modules with `require`
 
-# LuauBundler uses a system similar to JavaScript:
+### LuauBundler uses a system similar to JavaScript:
 
 - Use **relative** paths in `require`, with `./` and `/`
 - To import a folder, use a path ending with `/`, which must contain an `init.lua` file
@@ -28,7 +28,7 @@ local services = require("./services")        -- imports services/init.lua
 local db = require("./services/database.lua") -- imports services/database.lua
 ```
 
-#Example
+### Example
 
 `init.lua`:
 
@@ -57,7 +57,7 @@ end
 return Math
 ```
 
-# Bundling Your Project
+### Bundling Your Project
 
 In the terminal, run:
 
