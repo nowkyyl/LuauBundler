@@ -3,7 +3,7 @@
 ### Project Structure
 ```
 project/
-├── main.lua
+├── init.lua
 ├── utils/
 │   ├── init.lua
 │   └── math.lua
