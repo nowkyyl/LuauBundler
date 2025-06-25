@@ -60,14 +60,15 @@ return Math
 ### Bundling Your Project
 
 In the terminal, run:
-
 ```bash
 ./LuauBundler.exe project/init.lua output.lua 4
 ```
 
-This command creates the `output.lua` file containing your entire bundled project.
+* `project/init.lua`: main file of your project (input).
+* `output.lua`: file that will receive the bundled code (output).
+* `4`: processing or optimization level (how much the bundler will "bundle").
 
-# Summary
+### Summary
 
 * Use `require` with relative paths like JS (`./folder/`, `./file.lua`)
 * Folders must have `init.lua` to be imported with `/`
