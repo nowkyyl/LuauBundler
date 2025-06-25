@@ -1,5 +1,4 @@
 cmake_minimum_required(VERSION 3.10)
-<<<<<<< HEAD
 project(LuauBundler LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -18,7 +17,6 @@ message(STATUS "Default thread count: ${DEFAULT_THREAD_COUNT}")
 include_directories(${PROJECT_SOURCE_DIR}/include)
 
 set(SOURCES
-=======
 project(LuauBundler)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -27,12 +25,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 include_directories(include)
 
 add_executable(LuauBundler
->>>>>>> 94010ad73578bb307b1f78f75b7a9dbc3beec43c
     src/main.cpp
     src/Bundler.cpp
     src/LuauBundler.cpp
     src/Utils.cpp
-<<<<<<< HEAD
     src/ThreadPool.cpp
     src/CacheManager.cpp
 )
@@ -55,6 +51,4 @@ if(WIN32)
 elseif(UNIX)
     message(STATUS "Configuring for Unix/Linux")
 endif()
-=======
 )
->>>>>>> 94010ad73578bb307b1f78f75b7a9dbc3beec43c
