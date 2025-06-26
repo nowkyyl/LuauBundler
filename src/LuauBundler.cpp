@@ -21,13 +21,14 @@ std::string LuauBundler::generate() const {
         "  if not src then error(\"module '\"..mod..\"' not found\", 2) end\n"
         "  local fn, err = loadstring(src, '@'..mod)\n"
         "  if not fn then error(err, 2) end\n"
+        "  local env = setmetatable({require = require}, {__index = "
+        "getfenv()})\n"
+        "  setfenv(fn, env)\n"
         "  return fn()\n"
         "end\n\n";
 
-  for (const auto &[key, content] : modules) {
-    ss << "__modules[\"" << key << "\"] = ";
-    ss << "[=[" << content << "]=]\n";
-  }
+  for (const auto &[key, content] : modules)
+    ss << "__modules[\"" << key << "\"] = [=[" << content << "]=]\n";
 
   ss << "\nrequire(\"" << entryModule << "\")\n";
   return ss.str();
