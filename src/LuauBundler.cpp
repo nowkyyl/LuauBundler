@@ -17,10 +17,10 @@ std::string LuauBundler::generate() const {
         "  if type(module) == 'string' then\n"
         "     local f = __modules[module]\n"
         "     if not f then error(\"module '\"..module..\"' not found\") end\n"
+        "     return f()"
         "  else\n"
         "     return require(module)"
         "  end\n"
-        "  return f()\n"
         "end\n\n";
 
   for (const auto &[key, content] : modules) {
