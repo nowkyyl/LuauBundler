@@ -13,14 +13,17 @@ class Bundler {
 private:
   fs::path entryPath;
   fs::path baseDir;
+  std::string entryModuleName;
 
   std::unordered_map<std::string, std::string> modules;
+  std::unordered_map<std::string, fs::path> aliases;
 
   std::unique_ptr<CacheManager> cacheManager;
   std::unique_ptr<ThreadPool> threadPool;
 
-  std::string entryModuleName;
+  fs::path resolveRequirePath(const std::string &raw, const fs::path &filePath);
 
+  void loadAliasesFromLuarc(const fs::path &luarcPath);
   bool _moduleProcessed(const std::string &moduleName) const {
     return modules.count(moduleName);
   }
