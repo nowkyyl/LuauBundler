@@ -1,3 +1,3 @@
 return {
-    nums = require("./nums.lua")
+    nums = require("@self/nums.lua")
 }
