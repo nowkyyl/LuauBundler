@@ -83,32 +83,32 @@ LuauBundler::LuauBundler(
     : modules(modules_), entryModule(entry) {}
 
 std::string LuauBundler::generate() const {
-  std::stringstream ss;
+  std::stringstream out;
 
-  ss << "local __modules = {}\n"
-        "local oldRequire = require\n\n"
-        "function require(mod)\n"
-        "  if type(mod) == 'function' then return mod() end\n"
-        "  if type(mod) ~= 'string' then return oldRequire(mod) end\n"
-        "  local fn, err = __modules[mod]\n"
-        "  if not fn then error(\"module '\"..mod..\"' not found\", 2) end\n"
-        "  local env = setmetatable({require = require}, {__index = "
-        "getfenv()})\n"
-        "  setfenv(fn, env)\n"
-        "  return fn()\n"
-        "end\n\n";
-
-  ss << "local l = loadstring\n";
-  for (const auto &[key, content] : modules) {
-    std::string chunkName = "@" + key;
-    for (auto &c : chunkName)
+  out << "local l = loadstring\n";
+  out << "local mod = {\n";
+  for (const auto &[name, src] : modules) {
+    std::string chunk = "@" + name;
+    for (auto &c : chunk)
       if (c == '\\')
         c = '/';
 
-    ss << "__modules[\"" << key << "\"] = l([=[" << removeComments(content) << "]=], \""
-       << chunkName << "\")\n";
+    out << "  [\"" << name << "\"] = l([=[" << removeComments(src) << "]=], \""
+        << chunk << "\"),\n";
   }
+  out << "}\n\n";
 
-  ss << "\nrequire(\"" << entryModule << "\")\n";
-  return ss.str();
+  out << "local oldReq = require\n"
+         "function require(m)\n"
+         "  if type(m) == 'function' then return m() end\n"
+         "  if type(m) ~= 'string' then return oldReq(m) end\n"
+         "  local f = mod[m]\n"
+         "  if not f then error(\"module '\"..m..\"' not found\", 2) end\n"
+         "  local env = setmetatable({require=require}, {__index=getfenv()})\n"
+         "  setfenv(f, env)\n"
+         "  return f()\n"
+         "end\n\n";
+
+  out << "require(\"" << entryModule << "\")\n";
+  return out.str();
 }
