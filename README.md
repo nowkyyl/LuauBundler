@@ -1,3 +1,4 @@
+
 # How To Use
 
 ### Project Structure
@@ -12,23 +13,30 @@ project/
 │   └── database.lua
 ```
 
-Importing Modules with `require`
+### Importing Modules with `require`
 
-### LuauBundler uses a system similar to JavaScript:
+- Use **relative** paths in `require` with `./` and `../`
+- To import a folder, use a path pointing to the folder (ending with `/` or just the folder name), which must contain an `init.lua` file
+- To import files, you can specify the full relative path, with or without the `.lua` or `.luau` extension
+- You can also use the alias `@self/` to require modules relative to the current script’s folder
+- The bundler automatically resolves the require path trying, in this order:
+  1. Exact path as given
+  2. Path with `.lua` extension
+  3. Path with `.luau` extension
+  4. Folder path with `init.lua`
+  5. Folder path with `init.luau`
 
-- Use **relative** paths in `require`, with `./` and `/`
-- To import a folder, use a path ending with `/`, which must contain an `init.lua` file
-- To import files, use the full relative path, with or without the `.lua` extension
+### Examples
 
-Examples:
 ```lua
-local utils = require("./utils")              -- imports utils/init.lua
-local math = require("./utils/math.lua")      -- imports utils/math.lua
-local services = require("./services")        -- imports services/init.lua
-local db = require("./services/database.lua") -- imports services/database.lua
+local utils = require("./utils")                -- imports utils/init.lua
+local math = require("./utils/math.lua")        -- imports utils/math.lua
+local services = require("./services")          -- imports services/init.lua
+local db = require("./services/database.lua")   -- imports services/database.lua
+local nums = require("@self/nums")               -- imports nums/init.lua or nums.lua relative to current script
 ```
 
-### Example
+### Example Project Files
 
 `init.lua`:
 
@@ -59,16 +67,19 @@ return Math
 
 ### Bundling Your Project
 
-In the terminal, run:
+Run this in terminal:
+
 ```bash
 ./LuauBundler.exe project/init.lua output.lua 4
 ```
 
-* `project/init.lua`: main file of your project (input).
-* `output.lua`: file that will receive the bundled code (output).
-* `4`: processing or optimization level (how much the bundler will "bundle").
+- `project/init.lua`: your main entry Lua file (input)
+- `output.lua`: output file where the bundled code will be saved
+- `4`: level of threading or optimization (number of threads)
 
 ### Summary
 
-* Use `require` with relative paths like JS (`./folder/`, `./file.lua`)
-* Folders must have `init.lua` to be imported with `/`
+- Use `require` with relative paths (`./folder/`, `../file`, etc)
+- Use `@self/` as alias for "module relative to current script"
+- Folders must have `init.lua` or `init.luau` to be required as a module
+- The bundler automatically adds `.lua` or `.luau` extensions if missing, or looks for `init` files inside folders
