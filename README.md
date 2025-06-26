@@ -26,11 +26,30 @@ project/
   4. Folder path with `init.lua`
   5. Folder path with `init.luau`
 
+### Using `.luaurc` and Aliases
+
+You can create a `.luaurc` JSON configuration file in your project root (or any parent folder of your entry script) to define custom aliases for your modules.
+
+Example `.luaurc`:
+
+```json
+{
+  "aliases": {
+    "utils": "utils",
+    "pkgs": "libs/packages"
+  }
+}
+```
+
+- Aliases let you import modules using `@alias/` prefix.  
+- For example, `require("@utils/math")` resolves to the `math.lua` module inside the `utils` folder defined in the alias.  
+- The bundler loads `.luaurc` automatically from the closest parent directory of your entry file.
+
 ### Examples
 
 ```lua
 local utils = require("./utils")                -- imports utils/init.lua
-local math = require("./utils/math.lua")        -- imports utils/math.lua
+local math = require("@utils/math")              -- imports utils/math.lua via alias
 local services = require("./services")          -- imports services/init.lua
 local db = require("./services/database.lua")   -- imports services/database.lua
 local nums = require("@self/nums")               -- imports nums/init.lua or nums.lua relative to current script
@@ -41,7 +60,7 @@ local nums = require("@self/nums")               -- imports nums/init.lua or num
 `init.lua`:
 
 ```lua
-local utils = require("./utils/")
+local utils = require("@utils")
 print(utils.math.add(2, 3))
 ```
 
@@ -81,5 +100,6 @@ Run this in terminal:
 
 - Use `require` with relative paths (`./folder/`, `../file`, etc)
 - Use `@self/` as alias for "module relative to current script"
+- Use aliases defined in `.luaurc` with `@alias/` syntax
 - Folders must have `init.lua` or `init.luau` to be required as a module
 - The bundler automatically adds `.lua` or `.luau` extensions if missing, or looks for `init` files inside folders
