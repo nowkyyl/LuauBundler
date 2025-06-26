@@ -60,8 +60,8 @@ void Bundler::bundle() {
           std::string result;
           auto searchStart = content.cbegin();
 
-          while (std::smatch match;
-                 std::regex_search(searchStart, content.cend(), match, re);) {
+          std::smatch match;
+          while (std::regex_search(searchStart, content.cend(), match, re)) {
             result.append(searchStart, match[0].first);
 
             fs::path resolved =
