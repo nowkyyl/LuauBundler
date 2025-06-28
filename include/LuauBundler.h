@@ -12,5 +12,5 @@ public:
   LuauBundler(const std::unordered_map<std::string, std::string> &modules,
               const std::string &entry);
 
-  std::string generate() const;
+  std::string generate(int mode) const;
 }; // namespace LuauBundler
