@@ -3,6 +3,7 @@
 #include <filesystem>
 #include <fstream>
 #include <iostream>
+#include <string>
 
 #include "Bundler.h"
 #include "LuauBundler.h"
@@ -11,9 +12,9 @@
 namespace fs = std::filesystem;
 
 int main(int argc, char const *argv[]) {
-  if (argc < 4) {
+  if (argc < 5) {
     std::cerr << "Usage: " << argv[0]
-              << " <entry_file.lua> <output.lua> <threads>" << std::endl;
+              << " <entry_file.lua> <output.lua> <threads> <1: release, 2: dev>" << std::endl;
     return 1;
   }
 
@@ -34,8 +35,9 @@ int main(int argc, char const *argv[]) {
     const auto &modules = bundler.getModules();
     std::string entryModule = bundler.getEntryModuleName();
 
+    int mode = std::stoi(argv[4]);
     LuauBundler luaBundler(modules, entryModule);
-    std::string bundledContent = luaBundler.generate();
+    std::string bundledContent = luaBundler.generate(mode);
 
     fs::path outputFile(argv[2]);
     std::ofstream out(outputFile);
@@ -51,8 +53,7 @@ int main(int argc, char const *argv[]) {
 
     auto now = std::chrono::high_resolution_clock::now();
     std::cout << "Bundling completed in "
-              << std::chrono::duration_cast<std::chrono::milliseconds>(now -
-                                                                       start)
+              << std::chrono::duration_cast<std::chrono::milliseconds>(now - start)
                      .count()
               << " ms." << std::endl;
   } catch (const std::exception &e) {
