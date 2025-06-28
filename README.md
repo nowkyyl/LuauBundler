@@ -89,12 +89,15 @@ return Math
 Run this in terminal:
 
 ```bash
-./LuauBundler.exe project/init.lua output.lua 4
+./LuauBundler.exe project/init.lua output.lua 4 1
 ```
 
 - `project/init.lua`: your main entry Lua file (input)
 - `output.lua`: output file where the bundled code will be saved
 - `4`: level of threading or optimization (number of threads)
+- `1`: mode ->
+              - 1 = release (removes comments and minifies the code)
+              - anything else = dev (only removes comments)
 
 ### Summary
 
